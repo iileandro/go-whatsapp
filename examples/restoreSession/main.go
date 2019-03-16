@@ -3,10 +3,11 @@ package main
 import (
 	"encoding/gob"
 	"fmt"
-	"github.com/Baozisoftware/qrcode-terminal-go"
-	"github.com/Rhymen/go-whatsapp"
 	"os"
 	"time"
+
+	qrcodeTerminal "github.com/Baozisoftware/qrcode-terminal-go"
+	whatsapp "github.com/dimaskiddo/go-whatsapp"
 )
 
 func main() {
@@ -21,7 +22,7 @@ func main() {
 	session, err := readSession()
 	if err == nil {
 		//restore session
-		session, err = wac.RestoreSession(session)
+		session, err = wac.RestoreWithSession(session)
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "restoring failed: %v\n", err)
 			return

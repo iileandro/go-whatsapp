@@ -12,8 +12,9 @@ import (
 	"crypto/hmac"
 	"crypto/sha256"
 	"fmt"
-	"golang.org/x/crypto/hkdf"
 	"io"
+
+	"golang.org/x/crypto/hkdf"
 )
 
 /*

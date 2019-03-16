@@ -3,10 +3,11 @@ package main
 import (
 	"encoding/gob"
 	"fmt"
-	"github.com/Baozisoftware/qrcode-terminal-go"
-	"github.com/Rhymen/go-whatsapp"
 	"os"
 	"time"
+
+	qrcodeTerminal "github.com/Baozisoftware/qrcode-terminal-go"
+	whatsapp "github.com/dimaskiddo/go-whatsapp"
 )
 
 func main() {
@@ -29,7 +30,7 @@ func main() {
 		Info: whatsapp.MessageInfo{
 			RemoteJid: "number@s.whatsapp.net",
 		},
-		Text: "Message sent by github.com/Rhymen/go-whatsapp",
+		Text: "Message sent by github.com/dimaskiddo/go-whatsapp",
 	}
 
 	err = wac.Send(msg)
@@ -43,7 +44,7 @@ func login(wac *whatsapp.Conn) error {
 	session, err := readSession()
 	if err == nil {
 		//restore session
-		session, err = wac.RestoreSession(session)
+		session, err = wac.RestoreWithSession(session)
 		if err != nil {
 			return fmt.Errorf("restoring failed: %v\n", err)
 		}

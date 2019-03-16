@@ -10,7 +10,7 @@ import (
 	"time"
 
 	qrcodeTerminal "github.com/Baozisoftware/qrcode-terminal-go"
-	"github.com/Rhymen/go-whatsapp"
+	whatsapp "github.com/dimaskiddo/go-whatsapp"
 )
 
 type waHandler struct {

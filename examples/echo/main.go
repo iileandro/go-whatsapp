@@ -3,11 +3,12 @@ package main
 import (
 	"encoding/gob"
 	"fmt"
-	"github.com/Baozisoftware/qrcode-terminal-go"
-	"github.com/Rhymen/go-whatsapp"
 	"os"
 	"strings"
 	"time"
+
+	qrcodeTerminal "github.com/Baozisoftware/qrcode-terminal-go"
+	whatsapp "github.com/dimaskiddo/go-whatsapp"
 )
 
 type waHandler struct {
@@ -44,7 +45,7 @@ func (wh *waHandler) HandleTextMessage(message whatsapp.TextMessage) {
 func login(wac *whatsapp.Conn) error {
 	session, err := readSession()
 	if err == nil {
-		session, err = wac.RestoreSession(session)
+		session, err = wac.RestoreWithSession(session)
 		if err != nil {
 			return fmt.Errorf("restoring session failed: %v", err)
 		}

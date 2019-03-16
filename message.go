@@ -4,13 +4,14 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
-	"github.com/Rhymen/go-whatsapp/binary"
-	"github.com/Rhymen/go-whatsapp/binary/proto"
 	"io"
 	"math/rand"
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/dimaskiddo/go-whatsapp/binary"
+	"github.com/dimaskiddo/go-whatsapp/binary/proto"
 )
 
 type MediaType string
@@ -107,8 +108,7 @@ type MessageInfo struct {
 	PushName        string
 	Status          MessageStatus
 	QuotedMessageID string
-
-	Source *proto.WebMessageInfo
+	Source          *proto.WebMessageInfo
 }
 
 type MessageStatus int
@@ -437,7 +437,7 @@ func parseProtoMessage(msg *proto.WebMessageInfo) interface{} {
 		return getTextMessage(msg)
 
 	default:
-		//cannot match message
+		// cannot match message
 	}
 
 	return nil

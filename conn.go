@@ -1,12 +1,13 @@
-//Package whatsapp provides a developer API to interact with the WhatsAppWeb-Servers.
 package whatsapp
 
 import (
-	"github.com/pkg/errors"
 	"math/rand"
 	"net/http"
+	"strconv"
 	"sync"
 	"time"
+
+	"github.com/pkg/errors"
 
 	"github.com/gorilla/websocket"
 )
@@ -71,22 +72,19 @@ Conn is created by NewConn. Interacting with the initialized Conn is the main wa
 It holds all necessary information to make the package work internally.
 */
 type Conn struct {
-	ws       *websocketWrapper
-	listener *listenerWrapper
-
-	connected bool
-	loggedIn  bool
-	wg        *sync.WaitGroup
-
-	session        *Session
-	sessionLock    uint32
-	handler        []Handler
-	msgCount       int
-	msgTimeout     time.Duration
-	Info           *Info
-	Store          *Store
-	ServerLastSeen time.Time
-
+	ws              *websocketWrapper
+	listener        *listenerWrapper
+	connected       bool
+	loggedIn        bool
+	wg              *sync.WaitGroup
+	session         *Session
+	sessionLock     uint32
+	handler         []Handler
+	msgCount        int
+	msgTimeout      time.Duration
+	Info            *Info
+	Store           *Store
+	ServerLastSeen  time.Time
 	longClientName  string
 	shortClientName string
 }
@@ -113,7 +111,7 @@ func NewConn(timeout time.Duration) (*Conn, error) {
 		msgTimeout: timeout,
 		Store:      newStore(),
 
-		longClientName:  "github.com/rhymen/go-whatsapp",
+		longClientName:  "github.com/dimaskiddo/go-whatsapp",
 		shortClientName: "go-whatsapp",
 	}
 	return wac, wac.connect()
@@ -137,8 +135,9 @@ func (wac *Conn) connect() (err error) {
 		HandshakeTimeout: wac.msgTimeout,
 	}
 
+	server := strconv.Itoa(rand.Intn(8) + 1)
 	headers := http.Header{"Origin": []string{"https://web.whatsapp.com"}}
-	wsConn, _, err := dialer.Dial("wss://web.whatsapp.com/ws", headers)
+	wsConn, _, err := dialer.Dial("wss://w"+server+".web.whatsapp.com/ws", headers)
 	if err != nil {
 		return errors.Wrap(err, "couldn't dial whatsapp web websocket")
 	}
@@ -149,7 +148,6 @@ func (wac *Conn) connect() (err error) {
 		err := wsConn.WriteControl(websocket.CloseMessage, message, time.Now().Add(time.Second))
 
 		// our close handling
-		_, _ = wac.Disconnect()
 		wac.handle(&ErrConnectionClosed{Code: code, Text: text})
 		return err
 	})
@@ -165,8 +163,9 @@ func (wac *Conn) connect() (err error) {
 
 	wac.wg = &sync.WaitGroup{}
 	wac.wg.Add(2)
+
 	go wac.readPump()
-	go wac.keepAlive(20000, 60000)
+	go wac.keepAlive(20000)
 
 	wac.loggedIn = false
 	return nil
@@ -187,7 +186,7 @@ func (wac *Conn) Disconnect() (Session, error) {
 	return *wac.session, err
 }
 
-func (wac *Conn) keepAlive(minIntervalMs int, maxIntervalMs int) {
+func (wac *Conn) keepAlive(intervalMs) {
 	defer wac.wg.Done()
 
 	for {
@@ -196,9 +195,8 @@ func (wac *Conn) keepAlive(minIntervalMs int, maxIntervalMs int) {
 			wac.handle(errors.Wrap(err, "keepAlive failed"))
 			//TODO: Consequences?
 		}
-		interval := rand.Intn(maxIntervalMs-minIntervalMs) + minIntervalMs
 		select {
-		case <-time.After(time.Duration(interval) * time.Millisecond):
+		case <-time.After(time.Duration(intervalMs) * time.Millisecond):
 		case <-wac.ws.close:
 			return
 		}

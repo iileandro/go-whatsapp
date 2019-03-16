@@ -3,13 +3,15 @@ package whatsapp
 import (
 	"crypto/hmac"
 	"crypto/sha256"
-	"github.com/Rhymen/go-whatsapp/binary"
-	"github.com/Rhymen/go-whatsapp/crypto/cbc"
-	"github.com/gorilla/websocket"
-	"github.com/pkg/errors"
 	"io"
 	"io/ioutil"
 	"strings"
+
+	"github.com/gorilla/websocket"
+	"github.com/pkg/errors"
+
+	"github.com/dimaskiddo/go-whatsapp/binary"
+	"github.com/dimaskiddo/go-whatsapp/crypto/cbc"
 )
 
 func (wac *Conn) readPump() {
@@ -50,8 +52,9 @@ func (wac *Conn) readPump() {
 func (wac *Conn) processReadData(msgType int, msg []byte) error {
 	data := strings.SplitN(string(msg), ",", 2)
 
-	if data[0][0] == '!' { //Keep-Alive Timestamp
-		data = append(data, data[0][1:]) //data[1]
+	if data[0][0] == '!' {
+		// Keep-Alive Timestamp
+		data = append(data, data[0][1:])
 		data[0] = "!"
 	}
 
@@ -88,7 +91,7 @@ func (wac *Conn) processReadData(msgType int, msg []byte) error {
 }
 
 func (wac *Conn) decryptBinaryMessage(msg []byte) (*binary.Node, error) {
-	//message validation
+	// message validation
 	h2 := hmac.New(sha256.New, wac.session.MacKey)
 	h2.Write([]byte(msg[32:]))
 	if !hmac.Equal(h2.Sum(nil), msg[:32]) {

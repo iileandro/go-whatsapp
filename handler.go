@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/Rhymen/go-whatsapp/binary"
-	"github.com/Rhymen/go-whatsapp/binary/proto"
+	"github.com/dimaskiddo/go-whatsapp/binary"
+	"github.com/dimaskiddo/go-whatsapp/binary/proto"
 )
 
 /*

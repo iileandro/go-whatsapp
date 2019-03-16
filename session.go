@@ -10,9 +10,9 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/Rhymen/go-whatsapp/crypto/cbc"
-	"github.com/Rhymen/go-whatsapp/crypto/curve25519"
-	"github.com/Rhymen/go-whatsapp/crypto/hkdf"
+	"github.com/dimaskiddo/go-whatsapp/crypto/cbc"
+	"github.com/dimaskiddo/go-whatsapp/crypto/curve25519"
+	"github.com/dimaskiddo/go-whatsapp/crypto/hkdf"
 )
 
 /*
@@ -271,8 +271,8 @@ func (wac *Conn) RestoreWithSession(session Session) (_ Session, err error) {
 	return *wac.session, nil
 }
 
-/*//TODO: GoDoc
-RestoreSession is the function that restores a given session. It will try to reestablish the connection to the
+/*
+Restore is the function that restores a given session. It will try to reestablish the connection to the
 WhatsAppWeb servers with the provided session. If it succeeds it will return a new session. This new session has to be
 saved because the Client and Server-Token will change after every login. Logging in with old tokens is possible, but not
 suggested. If so, a challenge has to be resolved which is just another possible point of failure.

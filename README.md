@@ -1,16 +1,16 @@
-# go-whatsapp
-Package rhymen/go-whatsapp implements the WhatsApp Web API to provide a clean interface for developers. Big thanks to all contributors of the [sigalor/whatsapp-web-reveng](https://github.com/sigalor/whatsapp-web-reveng) project. The official WhatsApp Business API was released in August 2018. You can check it out [here](https://www.whatsapp.com/business/api).
+# Go WhatsApp Package
+Package dimaskiddo/go-whatsapp implements the WhatsApp Web API to provide a clean interface for developers. Big thanks to all contributors of the [sigalor/whatsapp-web-reveng](https://github.com/sigalor/whatsapp-web-reveng) project. The official WhatsApp Business API was released in August 2018. You can check it out [here](https://www.whatsapp.com/business/api).
 
 ## Installation
 ```sh
-go get github.com/rhymen/go-whatsapp
+go get github.com/dimaskiddo/go-whatsapp
 ```
 
 ## Usage
 ### Creating a connection
 ```go
 import (
-    whatsapp "github.com/Rhymen/go-whatsapp"
+    whatsapp "github.com/dimaskiddo/go-whatsapp"
 )
 
 wac, err := whatsapp.NewConn(20 * time.Second)
@@ -30,7 +30,7 @@ The authentication process requires you to scan the qr code, that is send throug
 
 ### Restore
 ```go
-newSess, err := wac.RestoreSession(sess)
+newSess, err := wac.RestoreWithSession(sess)
 ```
 The restore function needs a valid session and returns the new session that was created.
 
@@ -80,7 +80,6 @@ This code is in no way affiliated with, authorized, maintained, sponsored or end
 affiliates or subsidiaries. This is an independent and unofficial software. Use at your own risk.
 
 ## License
-
 The MIT License (MIT)
 
 Copyright (c) 2018
