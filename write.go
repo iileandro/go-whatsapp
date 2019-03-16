@@ -69,7 +69,7 @@ func (wac *Conn) sendKeepAlive() error {
 	case resp := <-respChan:
 		msecs, err := strconv.ParseInt(resp, 10, 64)
 		if err != nil {
-			return errors.Wrap(err, "Error converting time string to uint")
+			return errors.Wrap(err, "error converting time string to uint")
 		}
 		wac.ServerLastSeen = time.Unix(msecs/1000, (msecs%1000)*int64(time.Millisecond))
 

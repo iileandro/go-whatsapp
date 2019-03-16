@@ -106,11 +106,10 @@ The goroutine for handling incoming messages is started
 */
 func NewConn(timeout time.Duration) (*Conn, error) {
 	wac := &Conn{
-		handler:    make([]Handler, 0),
-		msgCount:   0,
-		msgTimeout: timeout,
-		Store:      newStore(),
-
+		handler:         make([]Handler, 0),
+		msgCount:        0,
+		msgTimeout:      timeout,
+		Store:           newStore(),
 		longClientName:  "github.com/dimaskiddo/go-whatsapp",
 		shortClientName: "go-whatsapp",
 	}
@@ -135,9 +134,9 @@ func (wac *Conn) connect() (err error) {
 		HandshakeTimeout: wac.msgTimeout,
 	}
 
-	server := strconv.Itoa(rand.Intn(8) + 1)
+	servers := strconv.Itoa(rand.Intn(8) + 1)
 	headers := http.Header{"Origin": []string{"https://web.whatsapp.com"}}
-	wsConn, _, err := dialer.Dial("wss://w"+server+".web.whatsapp.com/ws", headers)
+	wsConn, _, err := dialer.Dial("wss://w"+servers+".web.whatsapp.com/ws", headers)
 	if err != nil {
 		return errors.Wrap(err, "couldn't dial whatsapp web websocket")
 	}
@@ -186,13 +185,13 @@ func (wac *Conn) Disconnect() (Session, error) {
 	return *wac.session, err
 }
 
-func (wac *Conn) keepAlive(intervalMs) {
+func (wac *Conn) keepAlive(intervalMs int) {
 	defer wac.wg.Done()
 
 	for {
 		err := wac.sendKeepAlive()
 		if err != nil {
-			wac.handle(errors.Wrap(err, "keepAlive failed"))
+			wac.handle(errors.Wrap(err, "keepalive failed"))
 			//TODO: Consequences?
 		}
 		select {
