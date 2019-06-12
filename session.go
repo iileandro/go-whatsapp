@@ -10,9 +10,9 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/dimaskiddo/go-whatsapp/crypto/cbc"
-	"github.com/dimaskiddo/go-whatsapp/crypto/curve25519"
-	"github.com/dimaskiddo/go-whatsapp/crypto/hkdf"
+	"github.com/iileandro/go-whatsapp/crypto/cbc"
+	"github.com/iileandro/go-whatsapp/crypto/curve25519"
+	"github.com/iileandro/go-whatsapp/crypto/hkdf"
 )
 
 /*

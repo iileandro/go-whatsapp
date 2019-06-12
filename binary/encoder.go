@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/dimaskiddo/go-whatsapp/binary/token"
+	"github.com/iileandro/go-whatsapp/binary/token"
 )
 
 type binaryEncoder struct {

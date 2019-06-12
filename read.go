@@ -10,8 +10,8 @@ import (
 	"github.com/gorilla/websocket"
 	"github.com/pkg/errors"
 
-	"github.com/dimaskiddo/go-whatsapp/binary"
-	"github.com/dimaskiddo/go-whatsapp/crypto/cbc"
+	"github.com/iileandro/go-whatsapp/binary"
+	"github.com/iileandro/go-whatsapp/crypto/cbc"
 )
 
 func (wac *Conn) readPump() {
